@@ -1,2 +1,3 @@
 import "../css/style.css";
-console.log('hi')
+import { Keyboard } from "./keyboard";
+new Keyboard();
