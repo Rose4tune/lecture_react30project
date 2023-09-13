@@ -21,25 +21,38 @@ export class Keyboard {
   #addEvent(){ // 이벤트 실행 함수
     this.#switchEl.addEventListener("change", this.#onChangeTheme);
     this.#fontSelectEl.addEventListener("change", this.#onChangeFont);
-    document.addEventListener("keydown", (event)=> {
-      this.#inputGroupEl.classList.toggle("error", /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(event.key))
-      this.#keyboardEl
-        .querySelector(`[data-code=${event.code}]`)
-        ?.classList.add('active');
-    });
-    document.addEventListener("keyup", (event)=> {
-      this.#keyboardEl
-        .querySelector(`[data-code=${event.code}]`)
-        ?.classList.remove('active');
-    });
-    this.#inputEl.addEventListener("input", (event) => {
-      this.#inputEl.value = this.#inputEl.value.replace(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/, "");
-      
-    })
+    document.addEventListener("keydown", this.#onKeyDown.bind(this));
+    document.addEventListener("keyup", this.#onKeyUp.bind(this));
+    this.#inputEl.addEventListener("input", this.#onInput)
   }
+
+  #onInput(event){
+    event.target.value = event.target.value.replace(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/, "");
+  }
+
+  #onKeyDown(event){
+    this.#inputGroupEl.classList.toggle(
+      "error",
+      /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(event.key)
+    );
+    this.#keyboardEl
+      .querySelector(`[data-code=${event.code}]`)
+      ?.classList.add('active');
+  }
+
+  #onKeyUp(event){
+    this.#keyboardEl
+      .querySelector(`[data-code=${event.code}]`)
+      ?.classList.remove('active');
+  }
+
   #onChangeTheme(event){
-    document.documentElement.setAttribute("theme", event.target.checked ? "dark-mode" : "");
+    document.documentElement.setAttribute(
+      "theme",
+      event.target.checked ? "dark-mode" : ""
+    );
   }
+
   #onChangeFont(event){
     document.body.style.fontFamily = event.target.value;
   }
