@@ -5,6 +5,10 @@ export default class ImageSlider {
 
   #slideWidth = 0;
 
+  #intervalId;
+
+  #autoPlay = true;
+
   sliderWrapEl;
 
   sliderListEl;
@@ -15,6 +19,8 @@ export default class ImageSlider {
 
   indicatorWrapEl;
 
+  controlWrapEl;
+
   constructor() {
     this.assignElement();
     this.initSliderNumber();
@@ -23,6 +29,7 @@ export default class ImageSlider {
     this.addEvent();
     this.createIndicator();
     this.setIndicator();
+    this.initAutoplay();
   }
 
   assignElement() {
@@ -31,6 +38,11 @@ export default class ImageSlider {
     this.nextBtnEl = this.sliderWrapEl.querySelector('#next');
     this.prevBtnEl = this.sliderWrapEl.querySelector('#previous');
     this.indicatorWrapEl = this.sliderWrapEl.querySelector('#indicator-wrap');
+    this.controlWrapEl = this.sliderWrapEl.querySelector('#control-wrap');
+  }
+
+  initAutoplay() {
+    this.#intervalId = setInterval(this.moveToRight.bind(this), 3000);
   }
 
   // 슬라이드 넘버 초기화
@@ -51,6 +63,22 @@ export default class ImageSlider {
     this.nextBtnEl.addEventListener('click', this.moveToRight.bind(this));
     this.prevBtnEl.addEventListener('click', this.moveToLeft.bind(this));
     this.indicatorWrapEl.addEventListener('click', this.onClickIndicator.bind(this));
+    this.controlWrapEl.addEventListener('click', this.togglePlay.bind(this));
+  }
+
+  togglePlay(event) {
+    if(event.target.dataset.status === 'play') {
+      this.#autoPlay = true;
+      this.controlWrapEl.classList.add('play');
+      this.controlWrapEl.classList.remove('pause');
+      this.initAutoplay()
+
+    } else if(event.target.dataset.status === 'pause') {
+      this.#autoPlay = false;
+      this.controlWrapEl.classList.remove('play');
+      this.controlWrapEl.classList.add('pause');
+      clearInterval(this.#intervalId);
+    }
   }
 
   onClickIndicator(event) {
@@ -72,6 +100,10 @@ export default class ImageSlider {
     this.sliderListEl.style.left = `-${
       this.#slideWidth * this.#currentPosition
     }px`;
+    if(this.#autoPlay) {
+      clearInterval(this.#intervalId);
+      this.#intervalId = setInterval(this.moveToRight.bind(this), 3000);
+    }
     this.setIndicator();
   }
 
@@ -83,6 +115,10 @@ export default class ImageSlider {
     this.sliderListEl.style.left = `-${
       this.#slideWidth * this.#currentPosition
     }px`;
+    if(this.#autoPlay) {
+      clearInterval(this.#intervalId);
+      this.#intervalId = setInterval(this.moveToRight.bind(this), 3000);
+    }
     this.setIndicator();
   }
 
