@@ -15,3 +15,6 @@
 **공부에 참고한 사이트 정리**
   * [리액트 정의](https://medium.com/wasd/%EA%B8%B0%EC%B4%88%EB%B6%80%ED%84%B0-%EB%B0%B0%EC%9A%B0%EB%8A%94-react-js-1531b18f7bb2)
   * [Lodash](https://lodash.com/), [Prettier](https://prettier.io/), [ESlint](https://eslint.org/), [snowpack](https://www.snowpack.dev/tutorials/quick-start)
+
+**알아볼 것**
+  * [Kakao Oven](https://ovenapp.io/) : 웹 기반 기획툴 (기본 컴포넌트들이 이미 있음)
