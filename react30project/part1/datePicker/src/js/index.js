@@ -39,7 +39,9 @@ class DatePicker {
 
   constructor() {
     this.initCalendarDate();
+    this.initSelectedDate();
     this.assignElement();
+    this.setDateInput();
     this.addEvent();
   }
 
@@ -54,6 +56,15 @@ class DatePicker {
       month,
       year
     }
+  }
+
+  initSelectedDate() {
+    this.selectedDate = {...this.#calenderDate};
+  }
+
+  setDateInput() {
+    this.dataInputEl.textContent = this.formatDate(this.selectedDate.data);
+    this.dataInputEl.dataset.value = this.selectedDate.data;
   }
 
   assignElement(){
@@ -192,8 +203,7 @@ class DatePicker {
         month: this.#calenderDate.month,
         year: this.#calenderDate.year,
       }
-      this.dataInputEl.textContent = this.formatDate(this.selectedDate.data);
-      this.dataInputEl.dataset.value = this.selectedDate.data;
+      this.setDateInput();
       this.calendarEl.classList.remove('active');
     }
   }
