@@ -100,6 +100,13 @@ class DatePicker {
       fragment.appendChild(dateEl);
     }
 
+    fragment.firstChild.style.gridColumnStart =
+      new Date(
+        this.#calenderDate.year,
+        this.#calenderDate.month,
+        1
+      ).getDay() + 1;
+
     this.calendarDatesEl.appendChild(fragment)
   }
 }
