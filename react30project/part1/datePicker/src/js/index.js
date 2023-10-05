@@ -74,6 +74,33 @@ class DatePicker {
 
   toggleCalendar() {
     this.calendarEl.classList.toggle('active');
+    this.updateMonth();
+    this.updateDates();
+  }
+
+  updateMonth() {
+    this.monthContentEl.textContent = `${this.#calenderDate.year} ${this.monthData[this.#calenderDate.month]}`
+  }
+
+  updateDates() {
+    this.calendarDatesEl.innerHTML = '';
+    const numberOfDates = new Date(
+      this.#calenderDate.year,
+      this.#calenderDate.month + 1,
+      0
+    ).getDate();
+
+    const fragment = new DocumentFragment();
+
+    for (let i = 0; i < numberOfDates; i++) {
+      const dateEl = document.createElement('div');
+      dateEl.classList.add('date');
+      dateEl.textContent = i + 1;
+      dateEl.dataset.date = i + 1;
+      fragment.appendChild(dateEl);
+    }
+
+    this.calendarDatesEl.appendChild(fragment)
   }
 }
 
