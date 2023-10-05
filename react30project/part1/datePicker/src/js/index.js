@@ -69,7 +69,9 @@ class DatePicker {
   }
 
   addEvent() {
-    this.dataInputEl.addEventListener('click', this.toggleCalendar.bind(this))
+    this.dataInputEl.addEventListener('click', this.toggleCalendar.bind(this));
+    this.nextBtnEl.addEventListener('click', this.moveToNextMonth.bind(this));
+    this.prevBtnEl.addEventListener('click', this.moveToPrevMonth.bind(this));
   }
 
   toggleCalendar() {
@@ -151,6 +153,26 @@ class DatePicker {
         .querySelector(`[data-date='${today}']`)
         .classList.add('today');
     }
+  }
+
+  moveToNextMonth() {
+    this.#calenderDate.month++;
+    if(this.#calenderDate.month > 11) {
+      this.#calenderDate.month = 0;
+      this.#calenderDate.year++;
+    }
+    this.updateMonth();
+    this.updateDates();
+  }
+
+  moveToPrevMonth() {
+    this.#calenderDate.month--;
+    if(this.#calenderDate.month < 0) {
+      this.#calenderDate.month = 11;
+      this.#calenderDate.year--;
+    }
+    this.updateMonth();
+    this.updateDates();
   }
 }
 
