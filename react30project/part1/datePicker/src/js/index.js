@@ -124,6 +124,7 @@ class DatePicker {
     this.colorSaturday();
     this.colorSunday();
     this.markToday();
+    this.markSelectedDate();
   }
 
   colorSaturday() {
@@ -163,6 +164,17 @@ class DatePicker {
       this.calendarDatesEl
         .querySelector(`[data-date='${today}']`)
         .classList.add('today');
+    }
+  }
+
+  markSelectedDate() {
+    if(
+      this.selectedDate.year === this.#calenderDate.year
+      && this.selectedDate.month === this.#calenderDate.month
+    ) {
+      this.calendarDatesEl
+        .querySelector(`[data-date='${this.selectedDate.date}']`)
+        .classList.add('selected')
     }
   }
 
