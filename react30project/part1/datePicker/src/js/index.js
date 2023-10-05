@@ -86,6 +86,9 @@ class DatePicker {
   }
 
   toggleCalendar() {
+    if(this.calendarEl.classList.contains('active')) {
+      this.#calenderDate = {...this.selectedDate};
+    }
     this.calendarEl.classList.toggle('active');
     this.updateMonth();
     this.updateDates();
