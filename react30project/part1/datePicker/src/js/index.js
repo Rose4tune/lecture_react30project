@@ -107,7 +107,33 @@ class DatePicker {
         1
       ).getDay() + 1;
 
-    this.calendarDatesEl.appendChild(fragment)
+    this.calendarDatesEl.appendChild(fragment);
+    this.colorSaturday();
+    this.colorSunday();
+  }
+
+  colorSaturday() {
+    const saturdayEls = this.calendarDatesEl.querySelectorAll(
+      `.date:nth-child(7n+${
+        7 - new Date(this.#calenderDate.year, this.#calenderDate.month, 1).getDay()
+      })`
+    );
+
+    for (let i = 0; i < saturdayEls.length; i++) {
+      saturdayEls[i].style.color = 'blue';
+    }
+  }
+
+  colorSunday() {
+    const sundayEls = this.calendarDatesEl.querySelectorAll(
+      `.date:nth-child(7n+${
+        (8 - new Date(this.#calenderDate.year, this.#calenderDate.month, 1).getDay()) % 7
+      })`
+    );
+
+    for (let i = 0; i < sundayEls.length; i++) {
+      sundayEls[i].style.color = 'red';
+    }
   }
 }
 
