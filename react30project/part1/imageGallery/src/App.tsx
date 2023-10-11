@@ -29,6 +29,9 @@ function App() {
         >
           +
         </div>
+        {
+          imageList.map((el, idx) => <ImageBox key={el + idx} src={el}/>)
+        }
       </div>
     </div>
   );
