@@ -10,10 +10,13 @@ function App() {
   return (
     <div className='container'>
       <div className='initial-box'>
+        {
+          imageList.length === 0 &&
           <div className='text-center'>
             이미지가 없습니다.<br/>
             이미지를 추가해주세요
           </div>
+        }
         <input type="file" ref={inputRef}
           onChange = {event => {
             if(event.currentTarget.value) {
