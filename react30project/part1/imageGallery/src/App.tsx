@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import ImageBox from './component/ImageBox';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         </div>
         <div className='plus-box'>+</div>
       </div>
+      <ImageBox src="aa"/>
     </div>
   );
 }

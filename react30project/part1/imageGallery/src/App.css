@@ -29,6 +29,13 @@
   gap: 5rem
 }
 
+.image-box {
+  width: 12.5rem;
+  height: 12.5rem;
+  min-width: 12.5rem;
+  min-height: 12.5rem;
+}
+
 @media screen and (max-width: 500px) {
   .initial-box {
     gap: 2.5rem;
