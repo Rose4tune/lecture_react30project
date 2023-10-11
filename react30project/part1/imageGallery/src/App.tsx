@@ -9,7 +9,7 @@ function App() {
 
   return (
     <div className='container'>
-      <div className='initial-box'>
+      <div className={'gallery-box' + (imageList.length > 0 && ' row')}>
         {
           imageList.length === 0 &&
           <div className='text-center'>
@@ -19,9 +19,14 @@ function App() {
         }
         <input type="file" ref={inputRef}
           onChange = {event => {
-            if(event.currentTarget.value) {
-              const v = event.currentTarget.value;
-              setImageList(prev => [...prev, v])
+            if(event.currentTarget.files?.[0]) {
+              const file = event.currentTarget.files[0];
+              const reader = new FileReader();
+
+              reader.readAsDataURL(file);
+              reader.onloadend = event => {
+                setImageList(prev => [...prev, event.target?.result as string])
+              }
             }
           }}
         />
