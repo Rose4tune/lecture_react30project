@@ -11,21 +11,21 @@ class DatePicker {
     'September',
     'October',
     'November',
-    'December'
+    'December',
   ];
 
   #calenderDate = {
-    data:'',
-    date:0,
-    month:0,
-    year:0,
+    data: '',
+    date: 0,
+    month: 0,
+    year: 0,
   };
 
   selectedDate = {
-    data:'',
-    date:0,
-    month:0,
-    year:0,
+    data: '',
+    date: 0,
+    month: 0,
+    year: 0,
   };
 
   dataPickerEl;
@@ -54,12 +54,12 @@ class DatePicker {
       data,
       date,
       month,
-      year
-    }
+      year,
+    };
   }
 
   initSelectedDate() {
-    this.selectedDate = {...this.#calenderDate};
+    this.selectedDate = { ...this.#calenderDate };
   }
 
   setDateInput() {
@@ -67,27 +67,30 @@ class DatePicker {
     this.dataInputEl.dataset.value = this.selectedDate.data;
   }
 
-  assignElement(){
-    this.dataPickerEl = document.getElementById('date-picker')
-    this.dataInputEl = this.dataPickerEl.querySelector('#date-input')
+  assignElement() {
+    this.dataPickerEl = document.getElementById('date-picker');
+    this.dataInputEl = this.dataPickerEl.querySelector('#date-input');
     this.calendarEl = this.dataPickerEl.querySelector('#calendar');
     this.calendarMonthEl = this.dataPickerEl.querySelector('#month');
     this.monthContentEl = this.calendarMonthEl.querySelector('#content');
     this.nextBtnEl = this.calendarMonthEl.querySelector('#next');
     this.prevBtnEl = this.calendarMonthEl.querySelector('#prev');
-    this.calendarDatesEl = this.calendarEl.querySelector('#dates')
+    this.calendarDatesEl = this.calendarEl.querySelector('#dates');
   }
 
   addEvent() {
     this.dataInputEl.addEventListener('click', this.toggleCalendar.bind(this));
     this.nextBtnEl.addEventListener('click', this.moveToNextMonth.bind(this));
     this.prevBtnEl.addEventListener('click', this.moveToPrevMonth.bind(this));
-    this.calendarDatesEl.addEventListener('click', this.onClickSelectDate.bind(this));
+    this.calendarDatesEl.addEventListener(
+      'click',
+      this.onClickSelectDate.bind(this),
+    );
   }
 
   toggleCalendar() {
-    if(this.calendarEl.classList.contains('active')) {
-      this.#calenderDate = {...this.selectedDate};
+    if (this.calendarEl.classList.contains('active')) {
+      this.#calenderDate = { ...this.selectedDate };
     }
     this.calendarEl.classList.toggle('active');
     this.updateMonth();
@@ -95,7 +98,9 @@ class DatePicker {
   }
 
   updateMonth() {
-    this.monthContentEl.textContent = `${this.#calenderDate.year} ${this.monthData[this.#calenderDate.month]}`
+    this.monthContentEl.textContent = `${this.#calenderDate.year} ${
+      this.monthData[this.#calenderDate.month]
+    }`;
   }
 
   updateDates() {
@@ -103,7 +108,7 @@ class DatePicker {
     const numberOfDates = new Date(
       this.#calenderDate.year,
       this.#calenderDate.month + 1,
-      0
+      0,
     ).getDate();
 
     const fragment = new DocumentFragment();
@@ -117,11 +122,8 @@ class DatePicker {
     }
 
     fragment.firstChild.style.gridColumnStart =
-      new Date(
-        this.#calenderDate.year,
-        this.#calenderDate.month,
-        1
-      ).getDay() + 1;
+      new Date(this.#calenderDate.year, this.#calenderDate.month, 1).getDay() +
+      1;
 
     this.calendarDatesEl.appendChild(fragment);
     this.colorSaturday();
@@ -133,8 +135,9 @@ class DatePicker {
   colorSaturday() {
     const saturdayEls = this.calendarDatesEl.querySelectorAll(
       `.date:nth-child(7n+${
-        7 - new Date(this.#calenderDate.year, this.#calenderDate.month, 1).getDay()
-      })`
+        7 -
+        new Date(this.#calenderDate.year, this.#calenderDate.month, 1).getDay()
+      })`,
     );
 
     for (let i = 0; i < saturdayEls.length; i++) {
@@ -145,8 +148,14 @@ class DatePicker {
   colorSunday() {
     const sundayEls = this.calendarDatesEl.querySelectorAll(
       `.date:nth-child(7n+${
-        (8 - new Date(this.#calenderDate.year, this.#calenderDate.month, 1).getDay()) % 7
-      })`
+        (8 -
+          new Date(
+            this.#calenderDate.year,
+            this.#calenderDate.month,
+            1,
+          ).getDay()) %
+        7
+      })`,
     );
 
     for (let i = 0; i < sundayEls.length; i++) {
@@ -160,10 +169,10 @@ class DatePicker {
     const currentMonth = currentDate.getMonth();
     const currentYear = currentDate.getFullYear();
 
-    if(
-      currentYear === this.#calenderDate.year && 
+    if (
+      currentYear === this.#calenderDate.year &&
       currentMonth === this.#calenderDate.month
-    ){
+    ) {
       this.calendarDatesEl
         .querySelector(`[data-date='${today}']`)
         .classList.add('today');
@@ -171,19 +180,19 @@ class DatePicker {
   }
 
   markSelectedDate() {
-    if(
-      this.selectedDate.year === this.#calenderDate.year
-      && this.selectedDate.month === this.#calenderDate.month
+    if (
+      this.selectedDate.year === this.#calenderDate.year &&
+      this.selectedDate.month === this.#calenderDate.month
     ) {
       this.calendarDatesEl
         .querySelector(`[data-date='${this.selectedDate.date}']`)
-        .classList.add('selected')
+        .classList.add('selected');
     }
   }
 
   moveToNextMonth() {
     this.#calenderDate.month++;
-    if(this.#calenderDate.month > 11) {
+    if (this.#calenderDate.month > 11) {
       this.#calenderDate.month = 0;
       this.#calenderDate.year++;
     }
@@ -193,7 +202,7 @@ class DatePicker {
 
   moveToPrevMonth() {
     this.#calenderDate.month--;
-    if(this.#calenderDate.month < 0) {
+    if (this.#calenderDate.month < 0) {
       this.#calenderDate.month = 11;
       this.#calenderDate.year--;
     }
@@ -203,7 +212,7 @@ class DatePicker {
 
   onClickSelectDate(event) {
     const eventTarget = event.target;
-    if(eventTarget.dataset.date) {
+    if (eventTarget.dataset.date) {
       this.calendarDatesEl
         .querySelector('.selected')
         ?.classList.remove('selected');
@@ -212,12 +221,12 @@ class DatePicker {
         data: new Date(
           this.#calenderDate.year,
           this.#calenderDate.month,
-          eventTarget.dataset.date
+          eventTarget.dataset.date,
         ),
         date: eventTarget.dataset.date,
         month: this.#calenderDate.month,
         year: this.#calenderDate.year,
-      }
+      };
       this.setDateInput();
       this.calendarEl.classList.remove('active');
     }
@@ -225,17 +234,17 @@ class DatePicker {
 
   formatDate(dateData) {
     let date = dateData.getDate();
-    if(date < 10) {
+    if (date < 10) {
       date = `0${date}`;
     }
 
     let month = dateData.getMonth() + 1;
-    if(month < 10) {
+    if (month < 10) {
       month = `0${month}`;
     }
 
     let year = dateData.getFullYear();
-    return `${year}/${month}/${date}`
+    return `${year}/${month}/${date}`;
   }
 }
 
