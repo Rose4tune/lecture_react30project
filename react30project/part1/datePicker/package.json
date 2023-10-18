@@ -1,0 +1,24 @@
+{
+  "name": "datepicker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "snowpack dev",
+    "build": "snowpack build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@snowpack/plugin-sass": "^1.4.0",
+    "eslint": "^8.50.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "snowpack": "^3.2.2"
+  },
+  "dependencies": {
+    "prettier": "3.0.3"
+  }
+}
