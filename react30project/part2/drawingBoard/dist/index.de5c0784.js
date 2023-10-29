@@ -4,6 +4,7 @@ class DrawingBoard {
     eraserColor = "#fff";
     backgroundColor = "#fff";
     IsNavigatorVisible = false;
+    undoArray = [];
     constructor(){
         this.assingElement();
         this.initContext();
@@ -23,6 +24,7 @@ class DrawingBoard {
         this.navigatorEl = this.toolbarEl.querySelector("#navigator");
         this.navigatorImageContainerEl = this.containerEl.querySelector("#imgNav");
         this.navigatorImageEl = this.containerEl.querySelector("#canvasImg");
+        this.undoEl = this.toolbarEl.querySelector("#undo");
     }
     initContext() {
         this.context = this.canvasEl.getContext("2d");
@@ -41,6 +43,26 @@ class DrawingBoard {
         this.colorPickerEl.addEventListener("input", this.onChangeColor.bind(this));
         this.eraserEl.addEventListener("click", this.onClickEraser.bind(this));
         this.navigatorEl.addEventListener("click", this.onClickNavigator.bind(this));
+        this.undoEl.addEventListener("click", this.onClickUndo.bind(this));
+    }
+    onClickUndo() {
+        if (this.undoArray.length === 0) {
+            alert("\uB354 \uC774\uC0C1 \uC2E4\uD589\uCDE8\uC18C \uBD88\uAC00");
+            return;
+        }
+        let previousDataUrl = this.undoArray.pop();
+        let previousImage = new Image();
+        previousImage.onload = ()=>{
+            this.context.clearRect(0, 0, this.canvasEl.width, this.canvasEl.height);
+            this.context.drawImage(previousImage, 0, 0, this.canvasEl.width, this.canvasEl.height, 0, 0, this.canvasEl.width, this.canvasEl.height);
+        };
+        previousImage.src = previousDataUrl;
+    }
+    saveState() {
+        if (this.undoArray.length > 4) {
+            this.undoArray.shift();
+            this.undoArray.push(this.canvasEl.toDataURL());
+        } else this.undoArray.push(this.canvasEl.toDataURL());
     }
     onClickNavigator(event1) {
         this.IsNavigatorVisible = !event1.currentTarget.classList.contains("active");
@@ -82,6 +104,7 @@ class DrawingBoard {
             this.context.strokeStyle = this.eraserColor;
             this.context.lineWidth = 50;
         }
+        this.saveState();
     }
     onMouseMove(event1) {
         if (!this.IsMouseDown) return;
