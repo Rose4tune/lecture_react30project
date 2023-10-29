@@ -11,6 +11,10 @@ class DrawingBoard {
         this.canvasEl = this.containerEl.querySelector("#canvas");
         this.toolbarEl = this.containerEl.querySelector("#toolbar");
         this.brushEl = this.toolbarEl.querySelector("#brush");
+        this.colorPickerEl = this.toolbarEl.querySelector("#colorPicker");
+        this.brushPanelEl = this.containerEl.querySelector("#brushPanel");
+        this.brushSliderEl = this.brushPanelEl.querySelector("#brushSize");
+        this.brushSizePreviewEl = this.brushPanelEl.querySelector("#brushSizePreview");
     }
     initContext() {
         this.context = this.canvasEl.getContext("2d");
@@ -20,6 +24,17 @@ class DrawingBoard {
         this.canvasEl.addEventListener("mousedown", this.onMouseDown.bind(this));
         this.canvasEl.addEventListener("mousemove", this.onMouseMove.bind(this));
         this.canvasEl.addEventListener("mouseup", this.onMouseUp.bind(this));
+        this.canvasEl.addEventListener("mouseout", this.onMouseOut.bind(this));
+        this.brushSliderEl.addEventListener("input", this.onChangeBrushsize.bind(this));
+        this.colorPickerEl.addEventListener("input", this.onChangeColor.bind(this));
+    }
+    onChangeColor(event1) {
+        console.log(this.brushSizePreviewEl);
+        this.brushSizePreviewEl.style.background = event1.target.value;
+    }
+    onChangeBrushsize(event1) {
+        this.brushSizePreviewEl.style.width = `${event1.target.value}px`;
+        this.brushSizePreviewEl.style.height = `${event1.target.value}px`;
     }
     onMouseDown(event1) {
         if (this.MODE === "NONE") return;
@@ -28,8 +43,8 @@ class DrawingBoard {
         this.context.beginPath();
         this.context.moveTo(currentPosition.x, currentPosition.y);
         this.context.lineCap = "round";
-        this.context.strokeStyle = "#000000";
-        this.context.lineWidth = 10;
+        this.context.strokeStyle = this.colorPickerEl.value;
+        this.context.lineWidth = this.brushSliderEl.value;
     }
     onMouseMove(event1) {
         if (!this.IsMouseDown) return;
@@ -38,6 +53,10 @@ class DrawingBoard {
         this.context.stroke();
     }
     onMouseUp() {
+        if (this.MODE === "NONE") return;
+        this.IsMouseDown = false;
+    }
+    onMouseOut() {
         if (this.MODE === "NONE") return;
         this.IsMouseDown = false;
     }
@@ -52,6 +71,7 @@ class DrawingBoard {
         const IsActive = event1.currentTarget.classList.contains("active");
         this.MODE = IsActive ? "NONE" : "BRUSH";
         this.canvasEl.style.cursor = IsActive ? "default" : "crosshair";
+        this.brushPanelEl.classList.toggle("hide");
         this.brushEl.classList.toggle("active");
     }
 }
