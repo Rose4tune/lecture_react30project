@@ -12,6 +12,10 @@
   "license": "ISC",
   "devDependencies": {
     "@parcel/transformer-sass": "^2.10.1",
-    "parcel": "^2.10.1"
+    "eslint": "^8.52.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "parcel": "^2.10.1",
+    "prettier": "3.0.3"
   }
 }
