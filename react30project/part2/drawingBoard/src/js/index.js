@@ -6,6 +6,23 @@ class DrawingBoard {
   IsNavigatorVisible = false;
   undoArray = [];
 
+  containerEl;
+  canvasEl;
+  toolbarEl;
+  brushEl;
+  colorPickerEl;
+  brushPanelEl;
+  brushSliderEl;
+  brushSizePreviewEl;
+  eraserEl;
+  navigatorEl;
+  navigatorImageContainerEl;
+  navigatorImageEl;
+  undoEl;
+  clearEl;
+  downloadLinkEl;
+  downloadLinkEl;;
+
   constructor() {
     this.assingElement();
     this.initContext();
@@ -22,17 +39,12 @@ class DrawingBoard {
     this.brushPanelEl = this.containerEl.querySelector("#brushPanel");
     this.brushSliderEl = this.brushPanelEl.querySelector('#brushSize');
     this.brushSizePreviewEl = this.brushPanelEl.querySelector('#brushSizePreview');
-
     this.eraserEl = this.toolbarEl.querySelector('#eraser');
-    
     this.navigatorEl = this.toolbarEl.querySelector('#navigator');
     this.navigatorImageContainerEl = this.containerEl.querySelector('#imgNav');
     this.navigatorImageEl = this.containerEl.querySelector('#canvasImg');
-
     this.undoEl = this.toolbarEl.querySelector('#undo');
-
     this.clearEl = this.toolbarEl.querySelector('#clear');
-
     this.downloadLinkEl = this.toolbarEl.querySelector('#download');
   }
   initContext() {
@@ -50,15 +62,10 @@ class DrawingBoard {
     this.canvasEl.addEventListener("mouseout", this.onMouseOut.bind(this));
     this.brushSliderEl.addEventListener("input", this.onChangeBrushsize.bind(this));
     this.colorPickerEl.addEventListener("input", this.onChangeColor.bind(this));
-
     this.eraserEl.addEventListener('click', this.onClickEraser.bind(this));
-
     this.navigatorEl.addEventListener('click', this.onClickNavigator.bind(this));
-
     this.undoEl.addEventListener('click', this.onClickUndo.bind(this));
-
     this.clearEl.addEventListener('click', this.onClickClear.bind(this));
-
     this.downloadLinkEl.addEventListener('click', this.onClickDownload.bind(this));
   }
 

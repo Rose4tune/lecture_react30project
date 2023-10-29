@@ -5,6 +5,22 @@ class DrawingBoard {
     backgroundColor = "#fff";
     IsNavigatorVisible = false;
     undoArray = [];
+    containerEl;
+    canvasEl;
+    toolbarEl;
+    brushEl;
+    colorPickerEl;
+    brushPanelEl;
+    brushSliderEl;
+    brushSizePreviewEl;
+    eraserEl;
+    navigatorEl;
+    navigatorImageContainerEl;
+    navigatorImageEl;
+    undoEl;
+    clearEl;
+    downloadLinkEl;
+    downloadLinkEl;
     constructor(){
         this.assingElement();
         this.initContext();
