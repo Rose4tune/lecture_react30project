@@ -41,12 +41,47 @@ class TodoList {
     this.todoInputEl = this.inputAreaEl.querySelector('#todo-input');
     this.addBtnEl = this.inputAreaEl.querySelector('#add-btn');
 
+    this.redioAreaEl = this.inputContainerEl.querySelector('#radio-area');
+    this.filterRadioBtnEls = this.redioAreaEl.querySelectorAll('input[name="filter"]');
+
     this.todoContainer = document.getElementById('todo-container');
     this.todoListEl = this.todoContainer.querySelector('#todo-list');
   }
   addEvent(){
     this.addBtnEl.addEventListener('click', this.onClickAddBtn.bind(this));
     this.todoListEl.addEventListener('click', this.onClickTodoList.bind(this));
+    this.addRadioBtnEvent();
+  }
+
+  addRadioBtnEvent() {
+    for (const filterRadioBtnEl of this.filterRadioBtnEls) {
+      filterRadioBtnEl.addEventListener('click', this.onClickRadioBtn.bind(this));
+    }
+  }
+
+  onClickRadioBtn(event) {
+    const { value } = event.target;
+    this.filterTodo(value);
+  }
+
+  filterTodo(status) {
+    const todoDivEls = this.todoListEl.querySelectorAll('div.todo');
+
+    for (const todoDivEl of todoDivEls) {
+      switch (status) {
+        case 'ALL':
+          todoDivEl.style.display = 'flex';
+          break;
+
+        case 'DONE':
+          todoDivEl.style.display = todoDivEl.classList.contains('done') ? 'flex' : 'none';
+          break;
+
+        case 'TODO':
+          todoDivEl.style.display = todoDivEl.classList.contains('done') ? 'none' : 'flex';
+          break;
+      }
+    }
   }
 
   onClickTodoList(event) {
