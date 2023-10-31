@@ -53,8 +53,20 @@ class TodoList {
     const {target} = event;
     const btn = target.closest('button');
 
+    if(!btn) return;
+
     if(btn.matches('#delete-btn')) {
       this.deleteTodo(target);
+
+    } else if(btn.matches('#edit-btn')) {
+      this.editTodo(target);
+
+    } else if(btn.matches('#save-btn')) {
+      this.saveTodo(target);
+
+    } else if(btn.matches('#complete-btn')) {
+      this.completeTodo(target);
+
     }
   }
 
@@ -64,6 +76,28 @@ class TodoList {
       todoDiv.remove();
     });
     todoDiv.classList.add('delete');
+  }
+
+  editTodo(target) {
+    const todoDiv = target.closest('.todo');
+    todoDiv.classList.add('edit');
+
+    const todoInputEl = todoDiv.querySelector('input');
+    todoInputEl.readOnly = false;
+    todoInputEl.focus();
+  }
+
+  saveTodo(target) {
+    const todoDiv = target.closest('.todo');
+    todoDiv.classList.remove('edit');
+
+    const todoInputEl = todoDiv.querySelector('input');
+    todoInputEl.readOnly = true;
+  }
+
+  completeTodo(target) {
+    const todoDiv = target.closest('.todo');
+    todoDiv.classList.toggle('done');
   }
 
   onClickAddBtn(){
