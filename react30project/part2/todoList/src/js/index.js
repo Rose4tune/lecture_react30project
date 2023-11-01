@@ -46,15 +46,24 @@ class Storage {
     todosData.push({id, content: todoContent, status: 'TODO'});
     localStorage.setItem('todos', JSON.stringify(todosData));
   }
-  editTodo() {}
-  deletTodo(id) {
+  editTodo(id, todoContent, status = 'TODO') {
     const todosData = this.getTodos();
-    todosData.splice(
-      todosData.findIndex((todo) => todo.id == id),
-      1
-    );
+    const todoIndex = todosData.findIndex((todo) => todo.id == id);
+    const targetTodoData = todosData[todoIndex];
+    const editedTodoData =
+      todoContent === ''
+      ? {...targetTodoData, status}
+      : {...targetTodoData, content: todoContent};
+    todosData.splice(todoIndex, 1, editedTodoData);
     localStorage.setItem('todos', JSON.stringify(todosData));
   }
+
+  deletTodo(id) {
+    const todosData = this.getTodos();
+    todosData.splice(todosData.findIndex((todo) => todo.id == id), 1);
+    localStorage.setItem('todos', JSON.stringify(todosData));
+  }
+
   getTodos() {
     return localStorage.getItem('todos') === null ? [] : JSON.parse(localStorage.getItem('todos'))
   }
@@ -178,11 +187,16 @@ class TodoList {
 
     const todoInputEl = todoDiv.querySelector('input');
     todoInputEl.readOnly = true;
+
+    const {id} = todoDiv.dataset;
+    this.storage.editTodo(id, todoInputEl.value);
   }
 
   completeTodo(target) {
     const todoDiv = target.closest('.todo');
     todoDiv.classList.toggle('done');
+    const {id} = todoDiv.dataset;
+    this.storage.editTodo(id, '', todoDiv.classList.contains('done') ? "DONE" : 'TODO');
   }
 
   onClickAddBtn(){
