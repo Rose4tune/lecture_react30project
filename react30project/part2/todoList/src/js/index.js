@@ -47,7 +47,14 @@ class Storage {
     localStorage.setItem('todos', JSON.stringify(todosData));
   }
   editTodo() {}
-  deletTodo() {}
+  deletTodo(id) {
+    const todosData = this.getTodos();
+    todosData.splice(
+      todosData.findIndex((todo) => todo.id == id),
+      1
+    );
+    localStorage.setItem('todos', JSON.stringify(todosData));
+  }
   getTodos() {
     return localStorage.getItem('todos') === null ? [] : JSON.parse(localStorage.getItem('todos'))
   }
@@ -153,6 +160,7 @@ class TodoList {
       todoDiv.remove();
     })
     todoDiv.classList.add('delete');
+    this.storage.deletTodo(todoDiv.dataset.id);
   }
 
   editTodo(target) {
