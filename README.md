@@ -5,7 +5,7 @@
 
 ## 1. react30project
 - 설명 : 패캠 강의 수강 **<30개 프로젝트로 배우는 프론트엔드 with React>**
-- 수강기간 : 2023.09.05 ~ (2023.09.30 예상 완료일)
+- 수강기간 : 2023.09.05 ~ 
 - 내용정리 : https://velog.io/@rose4tune/series/react30project
 
 <br>
