@@ -40,10 +40,29 @@ class Router {
   }
 }
 
+class Storage {
+  saveTodo(id, todoContent) {
+    const todosData = this.getTodos();
+    todosData.push({id, content: todoContent, status: 'TODO'});
+    localStorage.setItem('todos', JSON.stringify(todosData));
+  }
+  editTodo() {}
+  deletTodo() {}
+  getTodos() {
+    return localStorage.getItem('todos') === null ? [] : JSON.parse(localStorage.getItem('todos'))
+  }
+}
+
 class TodoList {
-  constructor() {
-    this.assingElement()
-    this.addEvent()
+  constructor(storage) {
+    this.initStorage(storage);
+    this.assingElement();
+    this.addEvent();
+    this.loadSavedData();
+  }
+
+  initStorage(storage) {
+    this.storage = storage;
   }
 
   assingElement(){
@@ -58,10 +77,19 @@ class TodoList {
     this.todoContainer = document.getElementById('todo-container');
     this.todoListEl = this.todoContainer.querySelector('#todo-list');
   }
+
   addEvent(){
     this.addBtnEl.addEventListener('click', this.onClickAddBtn.bind(this));
     this.todoListEl.addEventListener('click', this.onClickTodoList.bind(this));
     this.addRadioBtnEvent();
+  }
+
+  loadSavedData() {
+    const todosData = this.storage.getTodos();
+    for (const todoData of todosData) {
+      const {id, content, status} = todoData;
+      this.createTodoElement(id, content, status);
+    }
   }
 
   addRadioBtnEvent() {
@@ -150,13 +178,24 @@ class TodoList {
   }
 
   onClickAddBtn(){
-    if(this.todoInputEl.value.length === 0) { alert('내용을 입력해주세요'); return; }
-    this.createTodoElement(this.todoInputEl.value);
+    if(this.todoInputEl.value.length === 0) {
+      alert('내용을 입력해주세요');
+      return;
+    }
+    const id = Date.now();
+    this.storage.saveTodo(id, this.todoInputEl.value);
+    this.createTodoElement(id, this.todoInputEl.value);
   }
 
-  createTodoElement(value) {
+  createTodoElement(id, value, status = null) {
     const todoDiv = document.createElement('div');
     todoDiv.classList.add('todo');
+
+    if(status === 'DONE') {
+      todoDiv.classList.add('done');
+    }
+
+    todoDiv.dataset.id = id;
 
     const todoContent = document.createElement('input');
     todoContent.value = value;
@@ -198,7 +237,7 @@ class TodoList {
 
 document.addEventListener('DOMContentLoaded', () => {
   const router = new Router();
-  const todoList = new TodoList();
+  const todoList = new TodoList(new Storage);
 
   const routeCallback = (status) => () => {
     todoList.filterTodo(status);
