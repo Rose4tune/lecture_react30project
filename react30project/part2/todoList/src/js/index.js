@@ -72,7 +72,7 @@ class TodoList {
 
   onClickRadioBtn(event) {
     const { value } = event.target;
-    this.filterTodo(value)
+    window.location.href = `#/${value.toLowerCase()}`;
   }
 
   filterTodo(status) {
